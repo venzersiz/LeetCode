@@ -1,19 +1,22 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         
-        int x = 0, y = 0;
+        int idx1 = 0, idx2 = 0;
+        Map<Integer, Integer> map = new HashMap<>();
         
-        OUT:
-        for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] + nums[j] == target) {
-                    x = i;
-                    y = j;
-                    break OUT;
-                }
+        for (int i = 0; i < nums.length; i++) {
+            int currentValue = nums[i];
+            Integer idxOfAnotherValue = map.get(target - currentValue);
+            
+            if (idxOfAnotherValue == null) {
+                map.put(currentValue, i);
+            } else {
+                idx1 = i;
+                idx2 = idxOfAnotherValue;
+                break;
             }
         }
         
-        return new int[] {x, y};
+        return new int[] {idx1, idx2};
     }
 }
