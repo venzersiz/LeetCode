@@ -1,35 +1,46 @@
 class Solution {
+
+    private Map<Character, Character> map = new HashMap<>();
+
+    public Solution() {
+        map.put(']', '[');
+        map.put('}', '{');
+        map.put(')', '(');
+    }
+
     public boolean isValid(String s) {
-        
-        char[] charArray = s.toCharArray();
-        if (charArray.length < 2) {
+
+        Stack<Character> stack = new Stack<>();
+
+        if (s.length() < 2) {
             return false;
         }
-        
-        Stack<Character> stack = new Stack<>();
-        Map<Character, Character> map = new HashMap<>();
-        map.put('(', ')');
-        map.put('{', '}');
-        map.put('[', ']');
-        
-        for (char c : charArray) {
-            if (c == '(' || c == '{' || c == '[') {
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (isOpenningTag(c)) {
                 stack.push(c);
-            } else if (c == ')' || c == '}' || c == ']') {
-                try {
-                    if (c != map.get(stack.pop())) {
-                        return false;
-                    }
-                } catch (Exception e) {
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                if (stack.pop() != map.get(c)) {
                     return false;
                 }
             }
         }
-        
+
         if (!stack.isEmpty()) {
             return false;
         }
-        
+
         return true;
+    }
+
+    private boolean isOpenningTag(char c) {
+
+        return c == '[' || c == '{' || c == '(';
     }
 }
